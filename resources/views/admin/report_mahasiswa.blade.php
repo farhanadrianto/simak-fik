@@ -64,36 +64,38 @@ new Chart(document.getElementById('chartProdi'), {
 
         labels: dataProdi.map(item => item.nama_prodi),
 
-        datasets: [{
-            label: 'Jumlah Mahasiswa',
+datasets: [{
+    data: dataProdi.map(item => item.total),
 
-            data: dataProdi.map(item => item.total),
+    backgroundColor: [
+        '#38bdf8', // Bisnis Digital (biru muda)
+        '#22c55e', // Informatika (hijau)
+        '#facc15', // Sains Data (kuning)
+        '#ef4444'  // Sistem Informasi (merah)
+    ],
 
-            backgroundColor: '#4f46e5',
-            borderColor: '#818cf8',
-            borderWidth: 1,
+    borderColor: [
+        '#38bdf8',
+        '#22c55e',
+        '#facc15',
+        '#ef4444'
+    ],
 
-            maxBarThickness: 45,
-            borderRadius: 8
-        }]
+    borderWidth: 1,
+    maxBarThickness: 45,
+    borderRadius: 8
+}]
     },
 
     options: {
 
         responsive: true,
 
-        plugins: {
-
-            legend: {
-                position: 'top',
-                align: 'end',
-
-                labels: {
-                    color: '#ffffff'
-                }
-            }
-
-        },
+plugins: {
+    legend: {
+        display: false
+    }
+},
 
         scales: {
 

@@ -63,14 +63,23 @@ new Chart(document.getElementById('chartFeedback'), {
         labels: dataFeedback.map(item => item.nama_prodi),
 
         datasets: [{
-            label: 'Total Feedback',
-
             data: dataFeedback.map(item => item.total),
 
-            backgroundColor: '#10b981',
-            borderColor: '#34d399',
-            borderWidth: 1,
+            backgroundColor: [
+                '#38bdf8',
+                '#22c55e',
+                '#facc15',
+                '#ef4444'
+            ],
 
+            borderColor: [
+                '#38bdf8',
+                '#22c55e',
+                '#facc15',
+                '#ef4444'
+            ],
+
+            borderWidth: 1,
             maxBarThickness: 45,
             borderRadius: 8
         }]
@@ -81,16 +90,9 @@ new Chart(document.getElementById('chartFeedback'), {
         responsive: true,
 
         plugins: {
-
             legend: {
-                position: 'top',
-                align: 'end',
-
-                labels: {
-                    color: '#ffffff'
-                }
+                display: false
             }
-
         },
 
         scales: {
@@ -120,13 +122,9 @@ new Chart(document.getElementById('chartFeedback'), {
                 grid: {
                     display: false
                 }
-
             }
-
         }
-
     }
-
 });
 
 </script>

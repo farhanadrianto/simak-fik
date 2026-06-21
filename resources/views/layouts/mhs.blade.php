@@ -236,7 +236,9 @@
         <!-- HEADER -->
         <div class="header-strip">
             <div class="badge-mhs">SIMAK FIK 2026</div>
-            <div class="date-info">{{ date('l, d F Y') }}</div>
+            <div class="date-info">
+    {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, DD MMMM YYYY') }}
+</div>
         </div>
 
         <!-- CONTENT -->
