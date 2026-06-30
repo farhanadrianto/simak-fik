@@ -69,7 +69,11 @@ public function dashboard()
             $ext  = $file->getClientOriginalExtension();
             $namaFile = 'dosen_'.$user->nip.'_'.time().'.'.$ext;
 
-            $path = public_path('uploads/profile');
+if (app()->environment('production')) {
+    $path = dirname(base_path()) . '/uploads/profile';
+} else {
+    $path = public_path('uploads/profile');
+}
 
             if(!File::exists($path)){
                 File::makeDirectory($path, 0755, true);

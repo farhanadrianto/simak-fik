@@ -58,9 +58,13 @@ public function index()
             $ext  = $file->getClientOriginalExtension();
 
             // format nama file
-            $namaFile = 'mhs_' . $profile->npm . '.' . $ext;
+            $namaFile = 'mhs_' . $profile->npm . '_' . time() . '.' . $ext;
 
-            $path = public_path('uploads/profile');
+if (app()->environment('production')) {
+    $path = dirname(base_path()) . '/uploads/profile';
+} else {
+    $path = public_path('uploads/profile');
+}
 
             // buat folder kalau belum ada
             if (!File::exists($path)) {
