@@ -115,7 +115,7 @@ simak_laravel/
 
 1. **Clone Repository**
    ```bash
-   git clone https://github.com/your-username/simak_laravel.git
+   git clone https://github.com/farhanadrianto/simak-fik.git
    cd simak_laravel
    ```
 
