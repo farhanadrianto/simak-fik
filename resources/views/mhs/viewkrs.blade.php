@@ -37,6 +37,29 @@
     .modal-box { width: 400px; background: #ffffff; border-radius: 16px; padding: 30px; text-align: center; }
     .btn-batal { background: #f1f5f9; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
     .btn-ya { background: #ef4444; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+             
+    .badge{
+    padding:6px 14px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+    display:inline-block;
+}
+
+.badge-menunggu{
+    background:#fff7ed;
+    color:#c2410c;
+}
+
+.badge-disetujui{
+    background:#ecfdf5;
+    color:#047857;
+}
+
+.badge-ditolak{
+    background:#fef2f2;
+    color:#b91c1c;
+}
 </style>
 
 <div class="section-title">Ringkasan Rencana</div>
@@ -46,31 +69,145 @@
 <div class="krs-wrapper">
     <div class="table-wrapper">
         <table class="table-krs">
-            <thead>
-                <tr>
-                    <th>NO</th><th>KODE</th><th>MATA KULIAH</th><th>SKS</th><th>KELAS</th><th>STATUS</th><th style="text-align: center;">AKSI</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($krs as $i => $row)
-                    <tr>
-                        <td>{{ $i+1 }}</td>
-                        <td>{{ $row->kode_matkul }}</td>
-                        <td>{{ $row->nama_matkul }}</td>
-                        <td>{{ $row->sks }}</td>
-                        <td>{{ $row->kelas }}</td>
-                        <td><span class="badge badge-{{ $row->status }}">{{ ucfirst($row->status) }}</span></td>
-                        <td style="text-align: center;">
-                            <form action="{{ route('mhs.krs.delete', $row->id) }}" method="POST" class="form-hapus">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="btn-hapus">✕ Hapus</button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <tr><td colspan="7" style="text-align:center; padding: 40px;">Belum ada mata kuliah yang diambil.</td></tr>
-                @endforelse
-            </tbody>
+<thead>
+<tr>
+    <th>NO</th>
+    <th>KODE</th>
+    <th>MATA KULIAH</th>
+    <th>SKS</th>
+    <th>KELAS</th>
+    <th>HARI</th>
+    <th>JAM JADWAL</th>
+    <th>STATUS</th>
+    <th style="text-align:center;">AKSI</th>
+</tr>
+</thead>
+<tbody>
+
+@forelse($krs as $i => $row)
+
+@php
+
+$bentrok = false;
+
+foreach($krs as $j => $cek){
+
+    if($i != $j){
+
+        if(
+
+            $row->hari == $cek->hari &&
+
+            $row->jam_mulai < $cek->jam_selesai &&
+
+            $row->jam_selesai > $cek->jam_mulai
+
+        ){
+
+            $bentrok = true;
+            break;
+
+        }
+
+    }
+
+}
+
+@endphp
+
+<tr>
+
+    <td>{{ $i+1 }}</td>
+
+    <td>
+        <b>{{ $row->kode_matkul }}</b>
+    </td>
+
+    <td>
+        <b>{{ $row->nama_matkul }}</b>
+    </td>
+
+    <td>{{ $row->sks }}</td>
+
+    <td>{{ $row->kelas }}</td>
+
+    <td>{{ $row->hari }}</td>
+
+    <td>
+        {{ $row->jam_mulai }} - {{ $row->jam_selesai }}
+    </td>
+
+    <td>
+
+        @if($bentrok)
+
+            <span class="badge badge-ditolak">
+                ⚠️ Jadwal Bentrok
+            </span>
+
+        @else
+
+            @if($row->status=='menunggu')
+
+                <span class="badge badge-menunggu">
+                    ⏳ Menunggu
+                </span>
+
+            @elseif($row->status=='disetujui')
+
+                <span class="badge badge-disetujui">
+                    ✓ Disetujui
+                </span>
+
+            @else
+
+                <span class="badge badge-ditolak">
+                    ✕ Ditolak
+                </span>
+
+            @endif
+
+        @endif
+
+    </td>
+
+    <td style="text-align:center;">
+
+        <form
+            action="{{ route('mhs.krs.delete',$row->id) }}"
+            method="POST"
+            class="form-hapus">
+
+            @csrf
+            @method('DELETE')
+
+            <button
+                type="submit"
+                class="btn-hapus">
+
+                ✕ Hapus
+
+            </button>
+
+        </form>
+
+    </td>
+
+</tr>
+
+@empty
+
+<tr>
+
+<td colspan="9" style="text-align:center;padding:40px;">
+Belum ada mata kuliah yang diambil.
+</td>
+
+</tr>
+
+@endforelse
+
+</tbody>
         </table>
     </div>
 
